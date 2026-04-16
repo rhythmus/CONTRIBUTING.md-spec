@@ -72,6 +72,8 @@ version: 1.0.0
     - [9.1 Default Standard](#91-default-standard)
     - [9.2 Overrides](#92-overrides)
     - [9.3 Automation](#93-automation)
+    - [9.4 Versioning Artifact (VERSIONING.md)](#94-versioning-artifact-versioningmd)
+    - [9.5 Changelog Artifact (CHANGELOG.md)](#95-changelog-artifact-changelogmd)
 - [10. Machine-Readable Specification](#10-machine-readable-specification)
 - [11. External File Requirements](#11-external-file-requirements)
 - [12. Compliance Levels](#12-compliance-levels)
@@ -125,6 +127,8 @@ version: 1.0.0
     - [C002](#c002)
     - [C003](#c003)
     - [C004](#c004)
+    - [C005](#c005)
+    - [C006](#c006)
     - [10.2 Structural rules](#102-structural-rules)
     - [C100](#c100)
     - [C101](#c101)
@@ -149,6 +153,8 @@ version: 1.0.0
     - [C302](#c302)
     - [C303](#c303)
     - [C304](#c304)
+    - [C305](#c305)
+    - [C306](#c306)
     - [10.6 Enforcement rules](#106-enforcement-rules)
     - [C400](#c400)
     - [C401](#c401)
@@ -597,6 +603,34 @@ Versioning SHOULD be:
 
 * * *
 
+### 9.4 Versioning Artifact (VERSIONING.md)
+
+A compliant repository MUST include a standalone `VERSIONING.md` file (or a clearly marked section in `CONTRIBUTING.md` that can be extracted) that serves as the **Stability Contract** between maintainers and users.
+
+#### 9.4.1 Requirements
+- **Scheme Declaration**: Explicitly name the versioning system (e.g., SemVer 2.0.0, CalVer).
+- **Stability Tiers**: Define the meaning of pre-release tags (e.g., `alpha` for internal testing, `beta` for public feedback, `rc` for final validation).
+- **Breaking Change Protocol**: Specify how breaking changes are identified in code and communicated to consumers.
+- **Support Lifecycle**: Document which versions are active, in maintenance mode, or deprecated.
+
+### 9.5 Changelog Artifact (CHANGELOG.md)
+
+The `CHANGELOG.md` file is a **temporal record** of all notable changes. It represents the realization of the commit semantics defined in Section 5.
+
+#### 9.5.1 Requirements
+- **Standardized Format**: SHOULD follow the [Keep a Changelog](https://keepachangelog.com/) structure.
+- **Chronological Density**: Entries MUST be grouped by version and ordered chronologically (newest first).
+- **Semantic Grouping**: Changes within a version MUST be categorized by intent:
+    - **Added**: for new features.
+    - **Changed**: for changes in existing functionality.
+    - **Deprecated**: for soon-to-be removed features.
+    - **Removed**: for now removed features.
+    - **Fixed**: for any bug fixes.
+    - **Security**: in case of vulnerabilities.
+- **Automation Sovereignty**: The changelog SHOULD be considered a **derived artifact** and ideally geneated automatically from the repository's commit history to ensure 100% fidelity between implementation and record.
+
+* * *
+
 ## 10. Machine-Readable Specification
 
 A compliant repository SHOULD provide:
@@ -635,6 +669,8 @@ To be compliant at the **Standard** level or higher, the repository MUST include
 *   Commitlint configuration (or equivalent)
 *   CI workflow configuration
 *   `.github/PULL_REQUEST_TEMPLATE.md` (per §7.3.1)
+*   `VERSIONING.md` (per §9.4)
+*   `CHANGELOG.md` (per §9.5)
 
 * * *
 
@@ -1132,6 +1168,14 @@ If the repository claims commit enforcement, a recognized commit-lint config MUS
 
 If the repository claims CI enforcement, at least one CI workflow file MUST exist.
 
+### C005
+
+`VERSIONING.md` MUST exist.
+
+### C006
+
+`CHANGELOG.md` SHOULD exist.
+
 * * *
 
 ### 10.2 Structural rules
@@ -1227,6 +1271,14 @@ If the document says “we use Conventional Commits with custom types”, those 
 ### C304
 
 If the document claims SemVer automation, release automation config SHOULD exist or the claim SHOULD be explicitly marked manual.
+
+### C305
+
+`VERSIONING.md` must document the declared versioning standard.
+
+### C306
+
+`CHANGELOG.md` MUST exist if a release version > 0.1.0 is detected.
 
 * * *
 

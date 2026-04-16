@@ -1,0 +1,14 @@
+# Rhythmus Standard .gitignore Baseline
+
+# Dependencies
+node_modules/
+
+# Build and IDE
+dist/
+.DS_Store
+.idea/
+.vscode/
+
+# Local
+.env
+*.log
