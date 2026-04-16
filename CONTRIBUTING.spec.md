@@ -45,7 +45,7 @@ version: 1.0.0
     - [3.3 Optional Sections](#33-optional-sections)
 - [4. Contribution Lifecycle](#4-contribution-lifecycle)
 - [5. Development Workflow](#5-development-workflow)
-    - [5.1 Branching](#51-branching)
+    - [5.1 Branching & Typed Workstreams](#51-branching--typed-workstreams)
     - [5.2 Commit Messages](#52-commit-messages)
     - [5.2.1 Normative Reference](#521-normative-reference)
     - [5.2.2 Project Extensions](#522-project-extensions)
@@ -62,9 +62,10 @@ version: 1.0.0
     - [6.4 Example Toolchain](#64-example-toolchain)
 - [7. Pull Request Protocol](#7-pull-request-protocol)
     - [7.1 Submission Requirements](#71-submission-requirements)
-    - [7.2 Structure](#72-structure)
+    - [7.2 Structure & Rationale](#72-structure--rationale)
     - [7.3 Templates](#73-templates)
-    - [7.4 Review Process](#74-review-process)
+    - [7.4 Review Process & Thresholds](#74-review-process--thresholds)
+    - [7.5 Forking & Permissions](#75-forking--permissions)
 - [8. Code & Documentation Standards](#8-code-documentation-standards)
 - [9. Release & Versioning](#9-release-versioning)
     - [9.1 Default Standard](#91-default-standard)
@@ -324,18 +325,39 @@ Each stage SHOULD include:
 
 ## 5. Development Workflow
 
-### 5.1 Branching
+### 5.1 Branching & Typed Workstreams
 
-Repositories MUST define:
+The repository MUST adopt a **Typed Workstream** model for development. This ensures that branches are categorized by intent, making the development history machine-parseable and self-documenting.
 
-*   whether branching is required
-*   naming conventions
+#### 5.1.1 Branch Naming Pattern
 
-Example:
+All developer-created branches MUST follow the canonical pattern:
 
 ```
-<type>/<scope>/<description>
+<type>/[scope]/<short-description>
 ```
+
+Where:
+- `type`: The intent of the change (matching the commit type taxonomy).
+- `scope`: (Optional) The module or component being modified.
+- `description`: A kebab-case summary of the work.
+
+#### 5.1.2 Taxonomy of Types
+
+| Type | Purpose |
+| :--- | :--- |
+| `feat` | New features or capabilities |
+| `fix` | Bug fixes or regressions |
+| `refactor` | Code changes that neither fix a bug nor add a feature |
+| `docs` | Changes to documentation only |
+| `release` | Preparation for a new release version |
+| `hotfix` | Critical patches to a production environment |
+
+#### 5.1.3 Requirements
+
+- Branches SHOULD be kept short-lived.
+- Each branch SHOULD map to a single logical change.
+- Repositories MUST declare if feature branching is strictly required for ALL contributions.
 
 * * *
 
@@ -451,41 +473,42 @@ commitlint.config.js
 
 ## 7. Pull Request Protocol
 
-Repositories MUST define:
+This protocol defines the formal contract for submitting and reviewing changes.
 
 ### 7.1 Submission Requirements
 
-*   passing CI
-*   valid commit messages
-*   updated documentation
+Before a Pull Request is considered for review, it MUST meet the following criteria:
 
-* * *
+- **Passing CI**: The latest commit MUST pass all automated checks.
+- **Valid Commits**: Every commit MUST satisfy the specification in Section 5.2.
+- **Documentation Sync**: If code changes affect public APIs or behavior, the corresponding documentation MUST be updated in the same PR.
+- **Clean History**: PRs MUST be rebased onto the target branch to avoid unnecessary merge conflicts (unless the project policy specifies merge commits).
 
-### 7.2 Structure
+### 7.2 Structure & Rationale
 
-Pull requests SHOULD include:
+PR descriptions MUST include:
 
-*   description
-*   rationale
-*   linked issues
-
-* * *
+- **Context**: Why is this change needed?
+- **Impact**: What are the intended (and unintended) consequences?
+- **Relationship**: Linking to relevant issues or RFCs using standard keywords (e.g., `Closes #123`).
 
 ### 7.3 Templates
 
-Repositories SHOULD use:
+Repositories SHOULD provide standardized Pull Request templates inside `.github/PULL_REQUEST_TEMPLATE.md` to ensure consistency.
 
-*   `.github/PULL_REQUEST_TEMPLATE.md`
+### 7.4 Review Process & Thresholds
 
-* * *
+- A PR MUST receive at least one approval from a designated maintainer or CODEOWNER before merging.
+- Reviewers SHOULD provide actionable feedback utilizing the same normative language (MUST/SHOULD) defined in this spec.
 
-### 7.4 Review Process
+### 7.5 Forking & Permissions
 
-Define:
+The standard contribution lifecycle is **Fork-and-Pull**:
 
-*   approval requirements
-*   review roles
-*   merge conditions
+1.  **Fork**: External contributors MUST fork the repository to their own namespace.
+2.  **Branch**: Work MUST be performed on a typed branch within the fork.
+3.  **Pull Request**: The contribution is submitted via a cross-repository Pull Request to the upstream repository.
+4.  **Permissions**: Maintainers MAY choose to allow direct branching within the repository for trusted contributors, but the same naming and validation rules MUST apply.
 
 * * *
 
