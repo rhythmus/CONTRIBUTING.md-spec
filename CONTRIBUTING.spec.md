@@ -67,6 +67,7 @@ version: 1.0.0
     - [7.4 Review Process & Thresholds](#74-review-process--thresholds)
     - [7.5 Forking & Permissions](#75-forking--permissions)
 - [8. Code & Documentation Standards](#8-code-documentation-standards)
+    - [8.1 File Exclusion Baseline (.gitignore)](#81-file-exclusion-baseline-gitignore)
 - [9. Release & Versioning](#9-release-versioning)
     - [9.1 Default Standard](#91-default-standard)
     - [9.2 Overrides](#92-overrides)
@@ -494,7 +495,21 @@ PR descriptions MUST include:
 
 ### 7.3 Templates
 
-Repositories SHOULD provide standardized Pull Request templates inside `.github/PULL_REQUEST_TEMPLATE.md` to ensure consistency.
+Repositories SHOULD provide standardized Pull Request and Issue templates to ensure high-fidelity contributions.
+
+#### 7.3.1 Pull Request Templates
+
+A compliant PR template MUST include the following normative sections:
+
+- **## Context**: A summary of the problem being solved or the goal of the change.
+- **## Impact**: An assessment of how this change affects the codebase, performance, or users.
+- **## Verification**: A checklist or description of how the changes were verified (e.g., unit tests, visual review).
+
+#### 7.3.2 Issue Templates
+
+Standardized Issue templates SHOULD be provided for:
+- **Bug Reports**: Requiring reproduction steps, environment details, and expected vs. actual behavior.
+- **Feature Requests**: Requiring a clear statement of value and proposed implementation logic.
 
 ### 7.4 Review Process & Thresholds
 
@@ -523,6 +538,31 @@ These MAY be:
 
 *   embedded
 *   referenced (e.g. `docs/style/`)
+
+### 8.1 File Exclusion Baseline (.gitignore)
+
+A compliant repository MUST maintain a strict exclusion policy to prevent ephemeral, local, or platform-specific artifacts from polluting the version history.
+
+#### 8.1.1 Policy of Explicit Intent
+
+The repository SHOULD adopt a "Deny by Default" posture where only intentional project assets are tracked.
+
+#### 8.1.2 Normative Exclusion List
+
+A compliant `.gitignore` MUST exclude the following categories:
+
+| Category | Typical Patterns |
+| :--- | :--- |
+| **Dependencies** | `node_modules/`, `bower_components/`, `vendor/` |
+| **Build Artifacts** | `dist/`, `build/`, `out/`, `*.tsbuildinfo` |
+| **Local Environment** | `.env`, `.env.local`, `.env.*.local` |
+| **OS Specific** | `.DS_Store` (macOS), `Thumbs.db` (Windows) |
+| **IDE Metadata** | `.vscode/`, `.idea/` (unless explicitly shared) |
+
+#### 8.1.3 Requirements
+
+- The `.gitignore` file SHOULD be located in the repository root.
+- Repositories MAY use hierarchical `.gitignore` files for specific sub-directories in a monorepo.
 
 * * *
 
@@ -587,12 +627,14 @@ contributing:
 
 ## 11. External File Requirements
 
-To be compliant, the repository MUST include:
+To be compliant at the **Standard** level or higher, the repository MUST include the following files in the root (or `.github/` where applicable):
 
+*   `.gitignore` (with baseline exclusions per §8.1)
 *   `.editorconfig`
-*   lint configuration(s)
-*   commitlint configuration (or equivalent)
+*   Lint configuration(s)
+*   Commitlint configuration (or equivalent)
 *   CI workflow configuration
+*   `.github/PULL_REQUEST_TEMPLATE.md` (per §7.3.1)
 
 * * *
 
